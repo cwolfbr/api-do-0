@@ -1,10 +1,12 @@
 import serverless from 'serverless-http';
-import app from './App.js'; // Ele já está sendo exportado e executado ao mesmo tempo.
+import app       from './App.js';
+import dotenv from 'dotenv';
 
-// 1) Exporta o handler para o Vercel
+dotenv.config();
+
 export const handler = serverless(app);
 
-// No vercel não é necessário realizar a ligação da API.
+// — Só faz listen em dev/local, nunca em produção
 if (process.env.NODE_ENV !== 'production') {
   const port = process.env.PORT || 3306;
   app.listen(port, () =>
