@@ -1,15 +1,14 @@
-import serverless from 'serverless-http';
-import app       from './App.js';
-import dotenv from 'dotenv';
+// src/server.js
+import app from './App.js';
 
-dotenv.config();
-
-export const handler = serverless(app);
-
-// — Só faz listen em dev/local, nunca em produção
+// Só em LOCAL (npm start) eu quero dar listen:
 if (process.env.NODE_ENV !== 'production') {
-  const port = process.env.PORT || 3306;
+  const port = process.env.PORT || 3000;
   app.listen(port, () =>
     console.log(`App rodando em http://localhost:${port}`)
   );
 }
+
+// **NÃO** chame listen em produção
+// **Exporte o app** como default para o Vercel usar como handler
+export default app;
