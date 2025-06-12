@@ -19,12 +19,28 @@ class CadastroControllers{
                 email,
                 telefone,
                 imovelProprio,
-                imovelEmGarantia,
                 aceitaPolitica
             } = req.body;
 
+            if(!cidade ||
+                !valorDesejadoEmprestimo ||
+                !valorImovelGarantia ||
+                !quantidadeParcelas ||
+                !tipoAmortizacao ||
+                !valorParcelaCalculada ||
+                !nomeCompleto ||
+                !email ||
+                !telefone ||
+                !imovelProprio ||
+                aceitaPolitica == null
+            ){
+                return res.status(400).json({msg: "Todos os campos são obrigatórios"});
+            }
+
             const codePertence = await this.search(imovelProprio, 31246); // Capturando código se é próprio ou não;
             const codeAmortizacao = await this.search(tipoAmortizacao, 44254); // capturando código amortização;
+            
+            console.log(codePertence);
 
             const create = new CreatedContactCardAPI(email, nomeCompleto, telefone, valorImovelGarantia, valorDesejadoEmprestimo, 0 ,quantidadeParcelas, 0, valorParcelaCalculada, codeAmortizacao, cidade, codePertence); //  Responsável por realizar o cadastro do lead no ploomes;
             const createDeal = await create.main() // Cadastrando no ploomes;

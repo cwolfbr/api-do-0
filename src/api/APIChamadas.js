@@ -105,7 +105,7 @@ export class Deal{
 
 export class CreatedContactCardAPI extends formatadorInput{
     
-    constructor(email, Name, PhoneNumber, vlr_imovel, vlr_solicitado, juros, nmr_parcelas, carencia, primeiraParcela, amortizacao, cidadeSelect, ArrayOtherPropreties, imovelProprio){
+    constructor(email, Name, PhoneNumber, vlr_imovel, vlr_solicitado, juros, nmr_parcelas, carencia, primeiraParcela, amortizacao, cidadeSelect,  imovelProprio, ArrayOtherPropreties){
         super()
         this.email = email;
         this.Name = Name;
