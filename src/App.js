@@ -1,5 +1,4 @@
 import dotenv from 'dotenv';
-import { resolve } from 'path';
 
 dotenv.config();
 
@@ -7,8 +6,8 @@ import cors from 'cors';
 import express from 'express';
 
 // Rotas
-import CadastroOnline from '../src/routes/RotasOnline.js';
-import CadastroOffline from '../src/routes/RotasOffline.js';
+import CadastroOnline from './routes/RotasOnline.js';
+import CadastroOffline from './routes/RotasOffline.js';
 
 class App {
   constructor() {
