@@ -3,7 +3,7 @@ import app from './App.js';
 
 // Só em LOCAL (npm start) eu quero dar listen:
 if (process.env.NODE_ENV !== 'production') {
-  const port = process.env.PORT || 3066;
+  const port = process.env.PORT || 3063;
   app.listen(port, () =>
     console.log(`App rodando em http://localhost:${port}`)
   );

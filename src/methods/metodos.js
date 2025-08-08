@@ -130,8 +130,9 @@ export class Garantidores extends fieldPloomes{
   }
 
   // Garantidor 1
-  garantidorUm(nome, cpf, cnpj, profissao, estadoCivil) {
+  garantidorUm(nome, email, cpf, cnpj, profissao, estadoCivil) {
     this.Dados.push(this.ObjectFormat_String('deal_BBF63223-BAD7-4316-84C8-50051799F12F', nome));         // Garantidor 1 - Nome
+    this.Dados.push(this.ObjectFormat_String('deal_D849ADAC-1FD4-40CF-87F4-C05818D4697C', email));         // Garantidor 1 - Email
     this.Dados.push(this.ObjectFormat_String('deal_50673E76-8C32-48EB-ACB6-B8897DD60D7B', cpf));          // Garantidor 1 - CPF
     this.Dados.push(this.ObjectFormat_String('deal_49C9E291-E75F-4DAA-8AF3-0C53E70C4DD1', cnpj));         // Garantidor 1 - CNPJ
     this.Dados.push(this.ObjectFormat_String('deal_A2CE0ADB-ADF8-4F10-B6B1-84FEE061EBA6', profissao));    // Garantidor 1 - Profissão
@@ -139,8 +140,9 @@ export class Garantidores extends fieldPloomes{
   }
 
   // Garantidor 2
-  garantidorDois(nome, cpf, cnpj, profissao, estadoCivil) {
+  garantidorDois(nome, email, cpf, cnpj, profissao, estadoCivil) {
     this.Dados.push(this.ObjectFormat_String('deal_59323129-820B-46E2-A562-83AE4B833D44', nome));         // Garantidor 2 - Nome
+    this.Dados.push(this.ObjectFormat_String('deal_0683CDE3-4E51-4D71-8BAD-99F3CCF7E017', email));         // Garantidor 2 - Email
     this.Dados.push(this.ObjectFormat_String('deal_E3771332-4430-48C9-9AA8-5B84C2DEAA5C', cpf));          // Garantidor 2 - CPF
     this.Dados.push(this.ObjectFormat_String('deal_650C6DF1-BE94-4947-BED6-FB851A6793BE', cnpj));         // Garantidor 2 - CNPJ
     this.Dados.push(this.ObjectFormat_String('deal_90014DFC-D245-4DDD-8216-034BB2CD8D7C', profissao));    // Garantidor 2 - Profissão
@@ -148,8 +150,9 @@ export class Garantidores extends fieldPloomes{
   }
 
   // Garantidor 3
-  garantidorTres(nome, cpf, cnpj, profissao, estadoCivil) {
+  garantidorTres(nome, email, cpf, cnpj, profissao, estadoCivil) {
     this.Dados.push(this.ObjectFormat_String('deal_65BD8034-426F-404D-951D-A2889AC8F009', nome));         // Garantidor 3 - Nome
+    this.Dados.push(this.ObjectFormat_String('deal_73679E4E-92BB-42FF-AE62-349395B1A0FC', email));         // Garantidor 3 - Email
     this.Dados.push(this.ObjectFormat_String('deal_74034139-270D-44FF-943B-AD2AFCD8C6A5', cpf));          // Garantidor 3 - CPF
     this.Dados.push(this.ObjectFormat_String('deal_7D09BAF8-3042-4917-A51B-F5A7C5E6C2CC', cnpj));         // Garantidor 3 - CNPJ
     this.Dados.push(this.ObjectFormat_String('deal_E12C3713-07B5-4366-9388-BC33B2E0444B', profissao));    // Garantidor 3 - Profissão
@@ -157,8 +160,9 @@ export class Garantidores extends fieldPloomes{
   }
 
   // Garantidor 4
-  garantidorQuatro(nome, cpf, cnpj, profissao, estadoCivil) {
+  garantidorQuatro(nome, email, cpf, cnpj, profissao, estadoCivil) {
     this.Dados.push(this.ObjectFormat_String('deal_C782E8E9-79EA-4F58-8501-419BE16EB85C', nome));         // Garantidor 4 - Nome
+    this.Dados.push(this.ObjectFormat_String('deal_6929ED7E-9E9D-4840-B84B-60349C2DE8E9', email));         // Garantidor 4 - Email
     this.Dados.push(this.ObjectFormat_String('deal_BD082B4E-98C4-4F22-B9FF-37B507A198EA', cpf));          // Garantidor 4 - CPF
     this.Dados.push(this.ObjectFormat_String('deal_081A4E2B-A486-48E6-9FA8-9FAB568E9603', cnpj));         // Garantidor 4 - CNPJ
     this.Dados.push(this.ObjectFormat_String('deal_95ABA3BA-FF74-4A7B-946D-B53304462F9F', profissao));    // Garantidor 4 - Profissão
@@ -196,6 +200,9 @@ export class TomadoresDados extends fieldPloomes{
     T1_FormaComprovacaoRendaInformal,
     T1_ProfissaoQualificacao,
     T1_RendaTotalinformada,
+    T1_ramoPJ,
+    T1_QtdSocios,
+    T1_QtdAdmin
   ) {
 
     this.Dados.push(this.ObjectFormat_Decimal('deal_342BD667-BAAE-42EC-99CB-2A33B4809629', T1_RendaInformal)); // Renda informal (T1)
@@ -255,6 +262,10 @@ export class TomadoresDados extends fieldPloomes{
       'deal_1F0FA3B2-DE81-4A45-B97B-E68B54DA90E5',
       T1_FormaComprovacaoRendaFormal
     )); // Forma de comprovação da renda formal (T1)
+
+    this.Dados.push(this.ObjectFormat_String('deal_AD1891C5-63C9-4437-9B45-6B3EB8FE6188', T1_ramoPJ)); // Ramo (T1 PJ)
+    this.Dados.push(this.ObjectFormat_Integer('deal_C53369F4-5A24-4A30-A3EF-D67B93DFFCF7', T1_QtdSocios)); // Nº de sócios (T1 PJ)
+    this.Dados.push(this.ObjectFormat_Integer('deal_3A71A601-1800-4731-AF9F-7C973C02060B', T1_QtdAdmin)); // Nº de admins (T1 PJ)
   }
 
   // Tomador 2
@@ -275,7 +286,10 @@ export class TomadoresDados extends fieldPloomes{
     T2_RendaInformal,
     T2_FormaComprovacaoRendaInformal,
     T2_ProfissaoQualificacao,
-    T2_RendaTotalinformada
+    T2_RendaTotalinformada,
+    T2_ramoPJ,
+    T2_QtdSocios,
+    T2_QtdAdmin
   ) {
 
     this.Dados.push(this.ObjectFormat_Decimal('deal_586E216C-C095-45C0-BD40-F33D7EA4F1BD', T2_RendaTotalinformada)); // Renda Total Informada (T1)
@@ -393,6 +407,10 @@ export class TomadoresDados extends fieldPloomes{
         T2_FormaComprovacaoRendaFormal
       )
     );
+
+    this.Dados.push(this.ObjectFormat_String('deal_333299F6-D8D3-4C9F-9859-CCB1AF34A1B9', T2_ramoPJ)); // Ramo (T2 PJ)
+    this.Dados.push(this.ObjectFormat_Integer('deal_AAF30CB8-456F-4991-8790-640035608665', T2_QtdSocios)); // Nº de sócios (T2 PJ)
+    this.Dados.push(this.ObjectFormat_Integer('deal_28EC1AF9-74B8-4A6F-B762-58F1F6559322', T2_QtdAdmin)); // Nº de admins (T2 PJ)
   }
 
   // Tomador 3
@@ -413,7 +431,10 @@ export class TomadoresDados extends fieldPloomes{
   T3_RendaInformal,
   T3_FormaComprovacaoRendaInformal,
   T3_ProfissaoQualificacao,
-  T3_RendaTotalinformada
+  T3_RendaTotalinformada,
+  T3_ramoPJ,
+  T3_QtdSocios,
+  T3_QtdAdmin
 ) {
 
   this.Dados.push(this.ObjectFormat_Decimal('deal_F9E8EE3A-92EB-4D36-9F2D-832E59665AF3', T3_RendaTotalinformada)); // Renda Total Informada (T1)
@@ -531,7 +552,11 @@ export class TomadoresDados extends fieldPloomes{
       T3_FormaComprovacaoRendaFormal
     )
   );
-  }
+
+  this.Dados.push(this.ObjectFormat_String('deal_4A59AC58-DCA8-4C72-B821-561EA3AEDA23', T3_ramoPJ)); // Ramo (T3 PJ)
+  this.Dados.push(this.ObjectFormat_Integer('deal_2BC4FEE9-6362-4148-A20F-0E29B4AF1934', T3_QtdSocios)); // Nº de sócios (T3 PJ)
+  this.Dados.push(this.ObjectFormat_Integer('deal_4ACA17D7-EBB7-4656-9F34-C5825019D62F', T3_QtdAdmin)); // Nº de admins (T3 PJ)
+}
 
   // Tomador 4
   tomador_quatro(
@@ -551,7 +576,10 @@ export class TomadoresDados extends fieldPloomes{
     T4_RendaInformal,
     T4_FormaComprovacaoRendaInformal,
     T4_ProfissaoQualificacao,
-    T4_RendaTotalinformada
+    T4_RendaTotalinformada,
+    T4_ramoPJ,
+    T4_QtdSocios,
+    T4_QtdAdmin
   ) {
 
   this.Dados.push(this.ObjectFormat_Decimal('deal_06A7F015-223B-45D7-90F1-25DB6EED1A94', T4_RendaTotalinformada)); // Renda Total Informada (T1)
@@ -669,6 +697,10 @@ export class TomadoresDados extends fieldPloomes{
       T4_FormaComprovacaoRendaFormal
     )
   );
+
+    this.Dados.push(this.ObjectFormat_String('deal_CC886D3F-52BC-4C34-A6D9-B29147FD0C13', T4_ramoPJ)); // Ramo (T4 PJ)
+    this.Dados.push(this.ObjectFormat_Integer('deal_A5F8F507-D06D-4E43-9A3F-B7643F27DE2B', T4_QtdSocios)); // Nº de sócios (T4 PJ)
+    this.Dados.push(this.ObjectFormat_Integer('deal_A47AC00F-B86A-492A-A390-8321AF519AEC', T4_QtdAdmin)); // Nº de admins (T4 PJ)
   }
 
 }
@@ -679,24 +711,8 @@ export class DemaisInformacoes extends fieldPloomes{
     this.Dados = Array
   }
 
-  // Campos para Pessoa Jurídica (Ramo)
-  camposPessoaJuridica(r1, r2, r3, r4) {
-    this.Dados.push(this.ObjectFormat_String('deal_AD1891C5-63C9-4437-9B45-6B3EB8FE6188', r1)); // Ramo (T1 PJ)
-    this.Dados.push(this.ObjectFormat_String('deal_333299F6-D8D3-4C9F-9859-CCB1AF34A1B9', r2)); // Ramo (T2 PJ)
-    this.Dados.push(this.ObjectFormat_String('deal_4A59AC58-DCA8-4C72-B821-561EA3AEDA23', r3)); // Ramo (T3 PJ)
-    this.Dados.push(this.ObjectFormat_String('deal_CC886D3F-52BC-4C34-A6D9-B29147FD0C13', r4)); // Ramo (T4 PJ)
-  }
-
-  // Nº de sócios (Pessoa Jurídica)
-  numeroSociosPJ(n1, n2, n3, n4) {
-    this.Dados.push(this.ObjectFormat_Integer('deal_C53369F4-5A24-4A30-A3EF-D67B93DFFCF7', n1)); // Nº de sócios (T1 PJ)
-    this.Dados.push(this.ObjectFormat_Integer('deal_AAF30CB8-456F-4991-8790-640035608665', n2)); // Nº de sócios (T2 PJ)
-    this.Dados.push(this.ObjectFormat_Integer('deal_2BC4FEE9-6362-4148-A20F-0E29B4AF1934', n3)); // Nº de sócios (T3 PJ)
-    this.Dados.push(this.ObjectFormat_Integer('deal_A5F8F507-D06D-4E43-9A3F-B7643F27DE2B', n4)); // Nº de sócios (T4 PJ)
-  }
-
   // Informações de empréstimo
-  informacoesEmprestimo(taxaJuros, valor, prazo, amortizacao, carencia, Qtd_tomadores, RendaTotalInformada) {
+  informacoesEmprestimo(taxaJuros, valor, prazo, amortizacao, carencia, Qtd_tomadores, RendaTotalInformada, valorSolicitado) {
     this.Dados.push(this.ObjectFormat_Integer('deal_96CABEAE-B922-468E-B376-81208D1E4DC9', Qtd_tomadores))    // Quantidade de tomadores 
     this.Dados.push(this.ObjectFormat_Decimal('deal_B7411108-97DA-4D62-8FFD-BE0BF309DAD3', taxaJuros));      // Taxa de juros (SOLICITADO)
     this.Dados.push(this.ObjectFormat_Decimal('deal_722F7E80-47E7-40C9-AAC4-2C43130CA707', valor));        // Valor (SOLICITADO)
@@ -704,6 +720,7 @@ export class DemaisInformacoes extends fieldPloomes{
     this.Dados.push(this.ObjectFormat_Integer('deal_EB71244F-6B18-41F3-AC2E-5AA14F777177', amortizacao));   // Amortização (SOLICITADO)
     this.Dados.push(this.ObjectFormat_Integer('deal_4E260047-3B96-4FEF-8DF4-8C9307EC4EE0', carencia));    // Carência (SOLICITADO)
     this.Dados.push(this.ObjectFormat_Decimal('deal_31AC18A8-A1FB-4DAB-A400-923F16671F89', RendaTotalInformada)) // Renda informada Total
+    this.Dados.push(this.ObjectFormat_Decimal('deal_3B15049E-0532-4C32-AFDC-3F6199475CF3', valorSolicitado));        // Valor (SOLICITADO)
   }
 
   // Finalidade do empréstimo
@@ -714,9 +731,9 @@ export class DemaisInformacoes extends fieldPloomes{
 
   // Checagem de dívidas
   checagemDividas(iptu, itr, condominio) {
-    this.Dados.push(this.ObjectFormat_String('deal_5467F9EB-6EC5-4B2B-9D2C-D2801DBB920F', iptu));         // Dívidas de IPTU?
-    this.Dados.push(this.ObjectFormat_String('deal_285725C3-0270-4D16-983C-2BE87C5D587B', itr));          // Dívidas de ITR?
-    this.Dados.push(this.ObjectFormat_String('deal_510B1612-5BAD-4EE3-A8F4-6ED6C84B035E', condominio));   // Débitos de Condomínio?
+    this.Dados.push(this.ObjectFormat_Key('deal_5467F9EB-6EC5-4B2B-9D2C-D2801DBB920F', iptu));         // Dívidas de IPTU?
+    this.Dados.push(this.ObjectFormat_Integer('deal_285725C3-0270-4D16-983C-2BE87C5D587B', itr));          // Dívidas de ITR?
+    this.Dados.push(this.ObjectFormat_Key('deal_510B1612-5BAD-4EE3-A8F4-6ED6C84B035E', condominio));   // Débitos de Condomínio?
   }
 
   // Condições de garantia
@@ -735,7 +752,9 @@ export class DemaisInformacoes extends fieldPloomes{
     inventario,
     valorEmAberto,
     ComQuemEstaFinanciado,
-    QuantoTempoFalta
+    QuantoTempoFalta,
+    utilizacaoGarantia,
+    TipoGarantia
   ) {
     this.Dados.push(this.ObjectFormat_Integer('deal_B2446B4C-776E-4B39-8C90-54E02BF69398', pertenceTomador));      // A garantia pertence ao tomador?
     this.Dados.push(this.ObjectFormat_Decimal('deal_FA8146ED-FF85-4706-B58E-60E9F24E3C5F', valorGarantia));       // Valor da garantia (SOLICITADO)
@@ -752,6 +771,8 @@ export class DemaisInformacoes extends fieldPloomes{
     this.Dados.push(this.ObjectFormat_Integer('deal_4E0CE90C-7281-4B27-B5B9-1381FCDD08B6', ComQuemEstaFinanciado)); // Empresa que financiou a garantia
     this.Dados.push(this.ObjectFormat_Integer('deal_3AD58AF6-A86E-43DE-B06B-27CE4C206A78', QuantoTempoFalta)); // Tempo para a quitação da garantia
     this.Dados.push(this.ObjectFormat_Decimal('deal_408A53F0-9F97-4D93-ACA4-B8DC1D337A3D', valorEmAberto)); // 
+    this.Dados.push(this.ObjectFormat_Integer('deal_24702CFE-9196-4258-AA27-F5B009E11654', utilizacaoGarantia)); // Qual a utilização da garantia?
+    this.Dados.push(this.ObjectFormat_Integer('deal_D7411240-B6BE-4642-A4EB-C00E41D44EA4', TipoGarantia)); // Qual o tipo da garantia?
   }
 }
 
