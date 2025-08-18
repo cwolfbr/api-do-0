@@ -7,56 +7,12 @@ dotenv.config();
 export class CallOptions{
     constructor(){}
 
-    async fields(){
-        try{
-            const response = await apiPloomes.get(`/Fields?select=Name,Key,OptionsTableId`, {
-                headers: {
-                'Content-Type': 'application/json',
-                'User-Key': "661569F0F2BFBD31E9AC2AEE5B55C79F245AA394FAB35193A17D32654241CC4298F80D88A4C7C711FC1F2C7DCD6FBE147CB178B54213CB44E85895DAEC17BA18"
-            }
-        })
-
-        const data = await response.data;
-
-        return data;
-
-        }catch(error){
-            if(error.response){
-                console.error('Erro API: ', error.response.data)
-            } else {
-                console.error('Erro geral: ', error.message)
-            }
-        }
-    }
-
-    async takeOptionsOne(options, TableId){
-        try{
-            const response = await apiPloomes.get(`/Fields@OptionsTables@Options?$select=Id,TableId,Name&$filter=Name eq '${options}' and TableId eq ${TableId}`, {
-                headers: {
-                    'Content-Type': 'application/json',
-                    'User-Key': "661569F0F2BFBD31E9AC2AEE5B55C79F245AA394FAB35193A17D32654241CC4298F80D88A4C7C711FC1F2C7DCD6FBE147CB178B54213CB44E85895DAEC17BA18"
-                }
-            })
-
-            const data = await response.data;
-
-            return data
-
-        }catch(error){
-            if(error.response){
-                console.error('Erro API: ', error.response.data)
-            } else {
-                console.error('Erro geral: ', error.message)
-            }
-        }
-    }
-
-    async takeOptions(TableId){
+    async takeOptions(option, TableId){
         try{
             const response = await apiPloomes.get(`/Fields@OptionsTables@Options?$select=Id,TableId,Name&$filter=TableId eq ${TableId}`, {
                 headers: {
                     'Content-Type': 'application/json',
-                    'User-Key': "661569F0F2BFBD31E9AC2AEE5B55C79F245AA394FAB35193A17D32654241CC4298F80D88A4C7C711FC1F2C7DCD6FBE147CB178B54213CB44E85895DAEC17BA18"
+                    'User-Key': process.env.PLOOMES_ID
                 }
             })
 
@@ -72,29 +28,6 @@ export class CallOptions{
             }
         }
     }
-
-    async sendFile(body){
-        try{
-            const response = await apiPloomes.patch(`/Attachments/Base64`, body, {
-                headers: {
-                    'Content-Type': 'application/json',
-                    'User-Key': "661569F0F2BFBD31E9AC2AEE5B55C79F245AA394FAB35193A17D32654241CC4298F80D88A4C7C711FC1F2C7DCD6FBE147CB178B54213CB44E85895DAEC17BA18"
-                }
-            })
-
-            const data = await response.data;
-
-            return data
-
-        }catch(error){
-            if(error.response){
-                console.error('Erro API: ', error.response.data)
-            } else {
-                console.error('Erro geral: ', error.message)
-            }
-        }
-    }
-
 }
 
 export class Deal{
@@ -108,7 +41,7 @@ export class Deal{
             const response = await apiPloomes.patch(`/Deals(${this.Id})`, this.dados , {
                 headers: {
                     'Content-Type': 'application/json',
-                    'User-Key': "661569F0F2BFBD31E9AC2AEE5B55C79F245AA394FAB35193A17D32654241CC4298F80D88A4C7C711FC1F2C7DCD6FBE147CB178B54213CB44E85895DAEC17BA18"
+                    'User-Key': process.env.PLOOMES_ID
                 }
             })
 
@@ -127,7 +60,7 @@ export class Deal{
 
 export class CreatedContactCardAPI extends formatadorInput{
     
-    constructor(email, Name, PhoneNumber, vlr_imovel, vlr_solicitado, juros, nmr_parcelas, carencia, primeiraParcela, amortizacao, cidadeSelect,  imovelProprio, ArrayOtherPropreties){
+    constructor(email, Name, PhoneNumber, vlr_imovel, vlr_solicitado, juros, nmr_parcelas, carencia, primeiraParcela, amortizacao, cidadeSelect,  imovelProprio, linkOrigem, ArrayOtherPropreties){
         super()
         this.email = email;
         this.Name = Name;
@@ -141,6 +74,7 @@ export class CreatedContactCardAPI extends formatadorInput{
         this.primeiraParcela = primeiraParcela;
         this.cidadeSelect = cidadeSelect;
         this.imovelProprio = imovelProprio;
+        this.linkOrigem = linkOrigem;
         this.ArrayOtherPropreties = ArrayOtherPropreties;
         this.contactID = false;
     }
@@ -202,70 +136,13 @@ export class CreatedContactCardAPI extends formatadorInput{
         }
     }
 
-    // Metódo principal que será responsável por criar a classe - Offline;
-    async mainOffline(){
-
-        // Dados que serão enviados para o ploomes caso o Contato não exista;
-        const dados = {
-            TypeId: 2, 
-            StatusId: 0,
-            Email: this.email,
-            Name: this.Name,
-            TasksOrdination: 2,
-            Editable: true,
-            Neighborhood: null,
-            ZipCode: 0, // precisa ser string, não número
-            Register: null, // sem pontuação, se for CNPJ
-            OriginId: null, // Evite usar 0. Use um ID válido ou remova se não for obrigatório
-            CompanyId: null, // pode ser removido se não estiver criando com vínculo de empresa
-            StreetAddressNumber: null, // string costuma ser mais segura aqui
-            Phones: [
-                {
-                    PhoneNumber: this.PhoneNumber,
-                    SearchPhoneNumber: this.PhoneNumber,
-                    TypeId: 2, // Verifique se esse tipo existe (ex: 0 = celular)
-                    CountryId: 55 // Código do Brasil (não deixe 0)
-                }
-            ]
-        };
-
-        this.contactID = await this.validateContact(); // Verificando se existe algum contato vinculado a este e-mail;
-        
-        // Aqui iremos respeitar uma regra de 7 dias para realizar a criação deste contato;
-        if(this.contactID){
-            const validando = await this.validateDeal(this.contactID); // Fazendo a verficação
-
-            if(validando){
-                // Caso estiver dentro de um periodo de 7 dias ele terá esse retorno;
-                return {
-                    status: false
-                }
-
-            }else { // Caso contrário ele irá realizar a criação do deal;
-                const retorno = await this.createDealOffline();
-                return {
-                    dados: retorno.data.value[0],
-                    status: true
-                }
-            }
-
-        }else { // irá realizar a criação do contaot/deal caso o contato não existir;
-            this.contactID = await this.createContact(dados)
-            const retorno = await this.createDealOffline();
-            return {
-                dados: retorno,
-                status: true
-            }
-        }
-    }
-
     // Irá realizar uma busca no ploomes para verificar se o perfil do usuário já existe;
     async validateContact(){
         try{
             const response = await apiPloomes.get(`/Contacts?$filter=Email+eq+'${this.email}'&$select=Id,Name,Email`, {
                 headers: {
                     'Content-Type': 'application/json',
-                    'User-Key': "661569F0F2BFBD31E9AC2AEE5B55C79F245AA394FAB35193A17D32654241CC4298F80D88A4C7C711FC1F2C7DCD6FBE147CB178B54213CB44E85895DAEC17BA18"
+                    'User-Key': process.env.PLOOMES_ID
                 }
             })
 
@@ -293,7 +170,7 @@ export class CreatedContactCardAPI extends formatadorInput{
             const contact = await apiPloomes.post('/Contacts', data, {
                 headers: {
                     'Content-Type': 'application/json',
-                    'User-Key': "661569F0F2BFBD31E9AC2AEE5B55C79F245AA394FAB35193A17D32654241CC4298F80D88A4C7C711FC1F2C7DCD6FBE147CB178B54213CB44E85895DAEC17BA18"
+                    'User-Key': process.env.PLOOMES_ID
                 }
             })
             
@@ -318,7 +195,7 @@ export class CreatedContactCardAPI extends formatadorInput{
             const response = await apiPloomes.get(`/Deals?$select=Id,Title,PipelineId,StageId,Amount,StatusId,StartDate&$filter=ContactId eq ${this.contactID}`, {
                 headers: {
                     'Content-Type': 'application/json',
-                    'User-Key': "661569F0F2BFBD31E9AC2AEE5B55C79F245AA394FAB35193A17D32654241CC4298F80D88A4C7C711FC1F2C7DCD6FBE147CB178B54213CB44E85895DAEC17BA18"
+                    'User-Key': process.env.PLOOMES_ID
                 }
             })
 
@@ -380,13 +257,17 @@ export class CreatedContactCardAPI extends formatadorInput{
                         FieldKey: process.env.DEAL_ID_AMORTIZACAO,
                         IntegerValue: this.amortizacao
                     },
+                    {
+                        FieldKey: process.env.DEAL_ID_LINKORIGEM,
+                        StringValue: this.linkOrigem
+                    },
                 ]
             }
 
             const response = await apiPloomes.post('/Deals', dados, {
                 headers: {
                     'Content-Type': 'application/json',
-                    'User-Key': "661569F0F2BFBD31E9AC2AEE5B55C79F245AA394FAB35193A17D32654241CC4298F80D88A4C7C711FC1F2C7DCD6FBE147CB178B54213CB44E85895DAEC17BA18"
+                    'User-Key': process.env.PLOOMES_ID
                 }
             })
 
@@ -401,37 +282,6 @@ export class CreatedContactCardAPI extends formatadorInput{
         }
     }
     
-    // Irá criar um novo negócio atrelado ao Contato já existe/criado - Offline;
-    async createDealOffline(){ 
-
-        try{
-            const dados = {
-                Title: this.Name, // Receber Front-end;
-                ContactId: this.contactID, // Resolvido;
-                Amount: parseFloat(formatadorInput.tratandoValoresInput(this.vlr_solicitado)), // Receber Front-end;
-                StageId: 181037, // O funil usado;
-                PipelineId: 40797,
-                OtherProperties: this.ArrayOtherPropreties
-            }
-
-            const response = await apiPloomes.post('/Deals', dados, {
-                headers: {
-                    'Content-Type': 'application/json',
-                    'User-Key': "661569F0F2BFBD31E9AC2AEE5B55C79F245AA394FAB35193A17D32654241CC4298F80D88A4C7C711FC1F2C7DCD6FBE147CB178B54213CB44E85895DAEC17BA18",
-                }
-            })
-
-            return response;
-
-        }catch(error){
-            if(error.response){
-                console.error('Erro API: ', error.response.data)
-            } else {
-                console.error('Erro geral: ', error.message)
-            }
-        }
-    }
-
     // Verificando se há uma diferença maior de 7 dias entre as data do último negócio criado deste contato.
     takeDate(deals){
         if(deals.length > 0){

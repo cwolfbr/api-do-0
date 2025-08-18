@@ -18,7 +18,8 @@ class CadastroControllers{
                 email,
                 telefone,
                 imovelProprio,
-                aceitaPolitica
+                aceitaPolitica,
+                linkOrigem
             } = req.body;
 
             if(!cidade ||
@@ -31,6 +32,7 @@ class CadastroControllers{
                 !email ||
                 !telefone ||
                 !imovelProprio ||
+                !linkOrigem ||
                 aceitaPolitica == null
             ){
                 return res.status(400).json({msg: "Todos os campos são obrigatórios"});
@@ -38,8 +40,8 @@ class CadastroControllers{
 
             const codePertence = await this.search(imovelProprio, 31246); // Capturando código se é próprio ou não;
             const codeAmortizacao = await this.search(tipoAmortizacao, 44254); // capturando código amortização;
-            
-            const create = new CreatedContactCardAPI(email, nomeCompleto, telefone, valorImovelGarantia, valorDesejadoEmprestimo, 0 ,quantidadeParcelas, 0, valorParcelaCalculada, codeAmortizacao, cidade, codePertence); //  Responsável por realizar o cadastro do lead no ploomes;
+
+            const create = new CreatedContactCardAPI(email, nomeCompleto, telefone, valorImovelGarantia, valorDesejadoEmprestimo, 0 ,quantidadeParcelas, 0, valorParcelaCalculada, codeAmortizacao, cidade, codePertence, linkOrigem); //  Responsável por realizar o cadastro do lead no ploomes;
             const createDeal = await create.main() // Cadastrando no ploomes;
             
             const msg = !createDeal.status ? 'Já existe um card criado com este e-mail dentro de um periodo de 7 dias' : "Card criado com sucesso!"
@@ -64,7 +66,7 @@ class CadastroControllers{
         try{
             const find = new CallOptions(); // Para buscar a chave no ploomes;
 
-            const retorno = await find.takeOptions(option, TableId) // Função que irá retornar o códigojá formatado;
+            const retorno = await find.takeOptions(option, TableId) // Função que irá retornar o código já formatado;
 
             const id = retorno.value[0].Id // capturando código;
 
