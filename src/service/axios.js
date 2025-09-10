@@ -1,6 +1,10 @@
-import axios from 'axios'
+import axios from 'axios';
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 const apiPloomes = axios.create({
-    baseURL: 'https://api2.ploomes.com',
+    baseURL: process.env.PLOOMES_BASE_URL || 'https://api2.ploomes.com',
 });
+
 export default apiPloomes;
