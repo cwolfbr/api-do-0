@@ -1,4 +1,8 @@
-import { CreatedContactCardAPI, CallOptions } from '../api/APIChamadas.js';
+import {
+  CreatedContactCardAPI,
+  CallOptions,
+  getLastDealByStage,
+} from '../api/APIChamadas.js';
 import dotenv from 'dotenv'; // responsável por armazenar as variáveis de ambiente
 
 dotenv.config();
@@ -83,6 +87,53 @@ class CadastroControllers {
         body: sanitize(req.body),
       });
       return res.status(500).json({ msg: 'Erro ao cadastrar lead' });
+    }
+  }
+
+  async showLastBucket(req, res) {
+    try {
+      const deal = await getLastDealByStage(
+        process.env.PIPELINE_ATENDIMENTO,
+        process.env.STAGE_BUCKET
+      );
+
+      if (!deal) {
+        return res
+          .status(404)
+          .json({ msg: 'Nenhum negócio encontrado para o bucket' });
+      }
+
+      const props = {};
+      (deal.OtherProperties || []).forEach((p) => {
+        props[p.FieldKey] =
+          p.StringValue ?? p.DecimalValue ?? p.IntegerValue ?? null;
+      });
+
+      const cliente = {
+        nomeCompleto: deal.Contact?.Name,
+        email: deal.Contact?.Email,
+        telefone: deal.Contact?.Phones?.[0]?.PhoneNumber,
+      };
+
+      const simulacao = {
+        valorImovelGarantia: props[process.env.DEAL_ID_VALOR_IMOVEL],
+        valorParcelaCalculada: props[process.env.DEAL_ID_PRIMEIRA_PARCELA],
+        quantidadeParcelas: props[process.env.DEAL_ID_VALOR_NMR_PARCELA],
+        valorDesejadoEmprestimo: props[process.env.DEAL_ID_VALOR_SOLICITADO],
+        cidade: props[process.env.DEAL_ID_CIDADE],
+        imovelProprio: props[process.env.DEAL_ID_PROPRIETARIO],
+        tipoAmortizacao: props[process.env.DEAL_ID_AMORTIZACAO],
+        linkOrigem: props[process.env.DEAL_ID_LINKORIGEM],
+      };
+
+      return res.status(200).json({ cliente, simulacao });
+    } catch (e) {
+      console.error('Erro ao buscar último bucket', {
+        error: e.message,
+      });
+      return res
+        .status(500)
+        .json({ msg: 'Erro ao buscar informações do bucket' });
     }
   }
 
