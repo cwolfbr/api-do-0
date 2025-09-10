@@ -19,5 +19,17 @@
   },
   "devDependencies": {
     "vercel": "^43.0.0"
+  },
+  "env": {
+    "PIPELINE_ATENDIMENTO": "",
+    "STAGE_BUCKET": "",
+    "DEAL_ID_VALOR_IMOVEL": "",
+    "DEAL_ID_PRIMEIRA_PARCELA": "",
+    "DEAL_ID_VALOR_NMR_PARCELA": "",
+    "DEAL_ID_VALOR_SOLICITADO": "",
+    "DEAL_ID_CIDADE": "",
+    "DEAL_ID_PROPRIETARIO": "",
+    "DEAL_ID_AMORTIZACAO": "",
+    "DEAL_ID_LINKORIGEM": ""
   }
 }

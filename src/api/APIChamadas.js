@@ -4,6 +4,31 @@ import dotenv from 'dotenv'; // responsável por armazenar as variáveis de ambi
 
 dotenv.config();
 
+export async function getLastDealByStage(pipelineId, stageId) {
+    try {
+        const response = await apiPloomes.get(
+            `/Deals?$filter=PipelineId eq ${pipelineId} and StageId eq ${stageId}` +
+            `&$orderby=StartDate desc&$top=1&$expand=Contact,OtherProperties`,
+            {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'User-Key': process.env.PLOOMES_ID,
+                },
+            }
+        );
+
+        const deals = response.data.value;
+        return deals && deals.length ? deals[0] : null;
+    } catch (error) {
+        if (error.response) {
+            console.error('Erro API: ', error.response.data);
+        } else {
+            console.error('Erro geral: ', error.message);
+        }
+        throw error;
+    }
+}
+
 export class CallOptions{
     constructor(){}
 
